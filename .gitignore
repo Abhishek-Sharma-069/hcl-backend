@@ -1,0 +1,71 @@
+# .NET Core
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+
+# Build results
+*.dll
+*.exe
+*.log
+
+# Others
+*.db
+
+# dotnet watch
+.dotnet_watch*
+
+# VS Code
+.vscode/
+
+# User-specific files
+*.user
+
+# Roslyn
+*.ide
+
+# Others
+*.class
+
+# Secrets
+.env
+
+# JetBrains
+temp/
+
+# Packages
+*.zip
+
+# Misc
+*.cache
+
+# Node modules
+node_modules/
+
+# AspNetCore
+*.publish.xml
+
+# Logs
+*.log
+
+# Azure DevOps
+.env*
