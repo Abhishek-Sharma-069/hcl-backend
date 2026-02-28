@@ -49,26 +49,47 @@ namespace LearnManagerAPI.Data
                     .OnDelete(DeleteBehavior.SetNull);
             });
 
-            // Lesson configuration
-            modelBuilder.Entity<Lesson>()
-                .HasOne(l => l.Course)
-                .WithMany(c => c.Lessons)
-                .HasForeignKey(l => l.CourseId)
-                .OnDelete(DeleteBehavior.SetNull);
+            // Lesson configuration – map to table "lessons" (snake_case)
+            modelBuilder.Entity<Lesson>(e =>
+            {
+                e.ToTable("lessons");
+                e.Property(l => l.Id).HasColumnName("id");
+                e.Property(l => l.CourseId).HasColumnName("course_id");
+                e.Property(l => l.Title).HasColumnName("title");
+                e.Property(l => l.Content).HasColumnName("content");
+                e.Property(l => l.OrderIndex).HasColumnName("order_index");
+                e.HasOne(l => l.Course)
+                    .WithMany(c => c.Lessons)
+                    .HasForeignKey(l => l.CourseId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
 
-            // Quiz configuration
-            modelBuilder.Entity<Quiz>()
-                .HasOne(q => q.Course)
-                .WithMany(c => c.Quizzes)
-                .HasForeignKey(q => q.CourseId)
-                .OnDelete(DeleteBehavior.SetNull);
+            // Quiz configuration – map to table "quizzes" (snake_case)
+            modelBuilder.Entity<Quiz>(e =>
+            {
+                e.ToTable("quizzes");
+                e.Property(q => q.Id).HasColumnName("id");
+                e.Property(q => q.CourseId).HasColumnName("course_id");
+                e.Property(q => q.Title).HasColumnName("title");
+                e.HasOne(q => q.Course)
+                    .WithMany(c => c.Quizzes)
+                    .HasForeignKey(q => q.CourseId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
 
-            // QuizQuestion configuration
-            modelBuilder.Entity<QuizQuestion>()
-                .HasOne(qq => qq.Quiz)
-                .WithMany(q => q.Questions)
-                .HasForeignKey(qq => qq.QuizId)
-                .OnDelete(DeleteBehavior.SetNull);
+            // QuizQuestion configuration – map to table "quiz_questions" (snake_case)
+            modelBuilder.Entity<QuizQuestion>(e =>
+            {
+                e.ToTable("quiz_questions");
+                e.Property(qq => qq.Id).HasColumnName("id");
+                e.Property(qq => qq.QuizId).HasColumnName("quiz_id");
+                e.Property(qq => qq.QuestionText).HasColumnName("question_text");
+                e.Property(qq => qq.CorrectAnswer).HasColumnName("correct_answer");
+                e.HasOne(qq => qq.Quiz)
+                    .WithMany(q => q.Questions)
+                    .HasForeignKey(qq => qq.QuizId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
 
             // Enrollment configuration
             modelBuilder.Entity<Enrollment>()
