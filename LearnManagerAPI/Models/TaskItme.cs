@@ -1,4 +1,4 @@
-namespace TaskManagerApi.Models;
+namespace LearnManagerAPI.Models;
 public class TaskItem
 {
     public int Id { get; set; }

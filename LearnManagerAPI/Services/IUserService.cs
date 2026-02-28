@@ -1,6 +1,6 @@
-using TaskManagerApi.Models;
+using LearnManagerAPI.Models;
 
-namespace TaskManagerApi.Services
+namespace LearnManagerAPI.Services
 {
     public interface IUserService
     {

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TaskManagerApi.Models;
-using TaskManagerApi.Services;
+using LearnManagerAPI.Models;
+using LearnManagerAPI.Services;
 
-namespace TaskManagerApi.Controllers
+namespace LearnManagerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

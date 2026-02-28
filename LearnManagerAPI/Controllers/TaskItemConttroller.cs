@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TaskManagerApi.Models;
-using TaskManagerApi.Services;
+using LearnManagerAPI.Models;
+using LearnManagerAPI.Services;
 
-namespace TaskManagerApi.Controllers
+namespace LearnManagerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
