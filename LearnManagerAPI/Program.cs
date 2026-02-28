@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using LearnManagerAPI.Data;
 using LearnManagerAPI.Services.Interfaces;
 using LearnManagerAPI.Services.Implementations;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapGet("/", () => Results.Json(new { message = "Welcome to LearnManagerAPI!" }));
 
 app.Run();
 

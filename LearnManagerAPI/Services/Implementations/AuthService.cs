@@ -17,7 +17,13 @@ namespace LearnManagerAPI.Services.Implementations
 
         public async Task<User> RegisterAsync(RegisterDto dto)
         {
-            // hash password etc.
+            // make sure email is unique
+            if (await _db.Users.AnyAsync(u => u.Email == dto.Email))
+            {
+                // conflict – caller will translate
+                throw new InvalidOperationException("Email already registered");
+            }
+
             var user = new User
             {
                 Name = dto.FullName,
@@ -34,8 +40,13 @@ namespace LearnManagerAPI.Services.Implementations
         public async Task<string> LoginAsync(LoginDto dto)
         {
             var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-            if (user == null) throw new Exception("Invalid credentials");
-            // Password check omitted
+            if (user == null)
+            {
+                // not found – indicate failure to controller
+                return null;
+            }
+            // TODO: verify password; return null if incorrect
+
             return "token";
         }
     }

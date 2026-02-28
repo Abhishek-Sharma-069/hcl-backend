@@ -19,14 +19,26 @@ namespace LearnManagerAPI.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(RegisterDto dto)
         {
-            var user = await _authService.RegisterAsync(dto);
-            return Ok(user);
+            try
+            {
+                var user = await _authService.RegisterAsync(dto);
+                return CreatedAtAction(nameof(Register), new { id = user.Id }, user);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // duplicate email
+                return Conflict(new { message = ex.Message });
+            }
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginDto dto)
         {
             var token = await _authService.LoginAsync(dto);
+            if (token == null)
+            {
+                return Unauthorized(new { message = "Invalid email or password" });
+            }
             return Ok(token);
         }
     }
