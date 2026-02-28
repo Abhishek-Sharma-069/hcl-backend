@@ -20,7 +20,7 @@ namespace LearnManagerAPI.Services.Implementations
             // hash password etc.
             var user = new User
             {
-                FullName = dto.FullName,
+                Name = dto.FullName,
                 Email = dto.Email,
                 PasswordHash = dto.Password, // TODO: hash
                 Role = "Student",

@@ -14,7 +14,7 @@ namespace LearnManagerAPI.Services.Implementations
             _db = db;
         }
 
-        public async Task<Enrollment> EnrollAsync(int studentId, int courseId)
+        public async Task<Enrollment> EnrollAsync(long studentId, long courseId)
         {
             var enrollment = new Enrollment
             {
@@ -27,7 +27,7 @@ namespace LearnManagerAPI.Services.Implementations
             return enrollment;
         }
 
-        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentAsync(int studentId)
+        public async Task<IEnumerable<Enrollment>> GetEnrollmentsByStudentAsync(long studentId)
         {
             return await _db.Enrollments
                 .Where(e => e.StudentId == studentId)

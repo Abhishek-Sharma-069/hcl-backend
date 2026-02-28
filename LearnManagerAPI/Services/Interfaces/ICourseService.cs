@@ -5,8 +5,8 @@ namespace LearnManagerAPI.Services.Interfaces
 {
     public interface ICourseService
     {
-        Task<Course> CreateCourseAsync(CourseCreateDto dto, int instructorId);
+        Task<Course> CreateCourseAsync(CourseCreateDto dto, long instructorId);
         Task<IEnumerable<Course>> GetAllCoursesAsync();
-        Task<Course> GetCourseByIdAsync(int id);
+        Task<Course> GetCourseByIdAsync(long id);
     }
 }

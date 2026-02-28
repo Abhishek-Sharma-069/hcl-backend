@@ -15,7 +15,7 @@ namespace LearnManagerAPI.Services.Implementations
             _db = db;
         }
 
-        public async Task<Quiz> CreateQuizAsync(int courseId, Quiz quiz)
+        public async Task<Quiz> CreateQuizAsync(long courseId, Quiz quiz)
         {
             quiz.CourseId = courseId;
             _db.Quizzes.Add(quiz);
@@ -23,12 +23,12 @@ namespace LearnManagerAPI.Services.Implementations
             return quiz;
         }
 
-        public async Task<Quiz> GetQuizByIdAsync(int id)
+        public async Task<Quiz> GetQuizByIdAsync(long id)
         {
             return await _db.Quizzes.Include(q => q.Questions).FirstOrDefaultAsync(q => q.Id == id);
         }
 
-        public async Task<int> SubmitQuizAsync(QuizSubmitDto dto, int studentId)
+        public async Task<int> SubmitQuizAsync(QuizSubmitDto dto, long studentId)
         {
             var quiz = await _db.Quizzes.Include(q => q.Questions).FirstOrDefaultAsync(q => q.Id == dto.QuizId);
             if (quiz == null) throw new Exception("Quiz not found");
@@ -45,7 +45,7 @@ namespace LearnManagerAPI.Services.Implementations
             var progress = new Progress
             {
                 StudentId = studentId,
-                LessonId = 0, // not applicable
+                QuizId = dto.QuizId,
                 Completed = true,
                 QuizScore = score
             };

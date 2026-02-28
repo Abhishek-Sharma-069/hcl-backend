@@ -20,10 +20,71 @@ namespace LearnManagerAPI.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // configure relationships, indexes, etc.
+
+            // User configuration
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
+
+            // Course configuration
+            modelBuilder.Entity<Course>()
+                .HasOne(c => c.Instructor)
+                .WithMany()
+                .HasForeignKey(c => c.InstructorId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Lesson configuration
+            modelBuilder.Entity<Lesson>()
+                .HasOne(l => l.Course)
+                .WithMany(c => c.Lessons)
+                .HasForeignKey(l => l.CourseId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Quiz configuration
+            modelBuilder.Entity<Quiz>()
+                .HasOne(q => q.Course)
+                .WithMany(c => c.Quizzes)
+                .HasForeignKey(q => q.CourseId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // QuizQuestion configuration
+            modelBuilder.Entity<QuizQuestion>()
+                .HasOne(qq => qq.Quiz)
+                .WithMany(q => q.Questions)
+                .HasForeignKey(qq => qq.QuizId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Enrollment configuration
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Student)
+                .WithMany()
+                .HasForeignKey(e => e.StudentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Course)
+                .WithMany()
+                .HasForeignKey(e => e.CourseId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Progress configuration
+            modelBuilder.Entity<Progress>()
+                .HasOne(p => p.Student)
+                .WithMany()
+                .HasForeignKey(p => p.StudentId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Progress>()
+                .HasOne(p => p.Lesson)
+                .WithMany()
+                .HasForeignKey(p => p.LessonId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Progress>()
+                .HasOne(p => p.Quiz)
+                .WithMany()
+                .HasForeignKey(p => p.QuizId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace LearnManagerAPI.Services
             return _users;
         }
 
-        public User GetUserById(int Id)
+        public User GetUserById(long Id)
         {
             return _users.FirstOrDefault(u => u.Id == Id);
         }
@@ -32,7 +32,7 @@ namespace LearnManagerAPI.Services
             return user;
         }
 
-        public User UpdateUser(int id, User user)
+        public User UpdateUser(long id, User user)
         {
             var existingUser = _users.FirstOrDefault(u => u.Id == id);
             if (existingUser == null)
@@ -44,7 +44,7 @@ namespace LearnManagerAPI.Services
             return existingUser;
         }
 
-        public void DeleteUser(int id)
+        public void DeleteUser(long id)
         {
             var user = _users.FirstOrDefault(u => u.Id == id);
             if (user != null)

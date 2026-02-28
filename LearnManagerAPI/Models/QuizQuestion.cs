@@ -2,11 +2,11 @@ namespace LearnManagerAPI.Models;
 
 public class QuizQuestion
 {
-    public int Id { get; set; }
-    public int QuizId { get; set; }
+    public long Id { get; set; }
+    public long? QuizId { get; set; }
     public string QuestionText { get; set; }
     public string CorrectAnswer { get; set; }
 
-    // navigation
+    // Navigation properties
     public Quiz Quiz { get; set; }
 }

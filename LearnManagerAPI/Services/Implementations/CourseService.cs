@@ -15,7 +15,7 @@ namespace LearnManagerAPI.Services.Implementations
             _db = db;
         }
 
-        public async Task<Course> CreateCourseAsync(CourseCreateDto dto, int instructorId)
+        public async Task<Course> CreateCourseAsync(CourseCreateDto dto, long instructorId)
         {
             var course = new Course
             {
@@ -34,7 +34,7 @@ namespace LearnManagerAPI.Services.Implementations
             return await _db.Courses.Include(c => c.Instructor).ToListAsync();
         }
 
-        public async Task<Course> GetCourseByIdAsync(int id)
+        public async Task<Course> GetCourseByIdAsync(long id)
         {
             return await _db.Courses.Include(c => c.Lessons).Include(c => c.Quizzes).FirstOrDefaultAsync(c => c.Id == id);
         }

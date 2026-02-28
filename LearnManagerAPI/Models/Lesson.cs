@@ -2,12 +2,12 @@ namespace LearnManagerAPI.Models;
 
 public class Lesson
 {
-    public int Id { get; set; }
-    public int CourseId { get; set; }
+    public long Id { get; set; }
+    public long? CourseId { get; set; }
     public string Title { get; set; }
     public string Content { get; set; }
     public int OrderIndex { get; set; }
 
-    // navigation
+    // Navigation properties
     public Course Course { get; set; }
 }
