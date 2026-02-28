@@ -31,14 +31,12 @@ namespace LearnManagerAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginDto dto)
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginDto dto)
         {
-            var token = await _authService.LoginAsync(dto);
-            if (token == null)
-            {
+            var result = await _authService.LoginAsync(dto);
+            if (result == null)
                 return Unauthorized(new { message = "Invalid email or password" });
-            }
-            return Ok(token);
+            return Ok(result);
         }
     }
 }

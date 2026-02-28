@@ -29,6 +29,16 @@ namespace LearnManagerAPI.Services.Implementations
             return course;
         }
 
+        public async Task<Course?> UpdateCourseAsync(long id, CourseCreateDto dto)
+        {
+            var course = await _db.Courses.FindAsync(id);
+            if (course == null) return null;
+            course.Title = dto.Title;
+            course.Description = dto.Description;
+            await _db.SaveChangesAsync();
+            return course;
+        }
+
         public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
             return await _db.Courses.Include(c => c.Instructor).ToListAsync();

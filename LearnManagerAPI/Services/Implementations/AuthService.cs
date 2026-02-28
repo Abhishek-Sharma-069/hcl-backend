@@ -9,10 +9,12 @@ namespace LearnManagerAPI.Services.Implementations
     public class AuthService : IAuthService
     {
         private readonly ApplicationDbContext _db;
+        private readonly IJwtTokenService _jwtTokenService;
 
-        public AuthService(ApplicationDbContext db)
+        public AuthService(ApplicationDbContext db, IJwtTokenService jwtTokenService)
         {
             _db = db;
+            _jwtTokenService = jwtTokenService;
         }
 
         public async Task<User> RegisterAsync(RegisterDto dto)
@@ -37,17 +39,24 @@ namespace LearnManagerAPI.Services.Implementations
             return user;
         }
 
-        public async Task<string> LoginAsync(LoginDto dto)
+        public async Task<LoginResponseDto?> LoginAsync(LoginDto dto)
         {
             var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
             if (user == null)
-            {
-                // not found – indicate failure to controller
                 return null;
-            }
             // TODO: verify password; return null if incorrect
 
-            return "token";
+            return new LoginResponseDto
+            {
+                Token = _jwtTokenService.GenerateToken(user),
+                User = new UserInfoDto
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    Role = user.Role
+                }
+            };
         }
     }
 }

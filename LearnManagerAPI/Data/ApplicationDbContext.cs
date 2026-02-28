@@ -34,12 +34,20 @@ namespace LearnManagerAPI.Data
                 e.HasIndex(u => u.Email).IsUnique();
             });
 
-            // Course configuration
-            modelBuilder.Entity<Course>()
-                .HasOne(c => c.Instructor)
-                .WithMany()
-                .HasForeignKey(c => c.InstructorId)
-                .OnDelete(DeleteBehavior.SetNull);
+            // Course configuration – map to existing PostgreSQL table "courses" (snake_case columns)
+            modelBuilder.Entity<Course>(e =>
+            {
+                e.ToTable("courses");
+                e.Property(c => c.Id).HasColumnName("id");
+                e.Property(c => c.Title).HasColumnName("title");
+                e.Property(c => c.Description).HasColumnName("description");
+                e.Property(c => c.InstructorId).HasColumnName("instructor_id");
+                e.Property(c => c.CreatedAt).HasColumnName("created_at");
+                e.HasOne(c => c.Instructor)
+                    .WithMany()
+                    .HasForeignKey(c => c.InstructorId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
 
             // Lesson configuration
             modelBuilder.Entity<Lesson>()
