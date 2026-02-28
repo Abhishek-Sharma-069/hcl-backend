@@ -24,9 +24,8 @@ namespace LearnManagerAPI.Controllers
                 var user = await _authService.RegisterAsync(dto);
                 return CreatedAtAction(nameof(Register), new { id = user.Id }, user);
             }
-            catch (InvalidOperationException ex)
+            catch (Services.Exceptions.EmailAlreadyRegisteredException ex)
             {
-                // duplicate email
                 return Conflict(new { message = ex.Message });
             }
         }

@@ -20,16 +20,16 @@ namespace LearnManagerAPI.Services.Implementations
             // make sure email is unique
             if (await _db.Users.AnyAsync(u => u.Email == dto.Email))
             {
-                // conflict – caller will translate
-                throw new InvalidOperationException("Email already registered");
+                // use a specific exception so the controller can differentiate
+                throw new Services.Exceptions.EmailAlreadyRegisteredException(dto.Email);
             }
 
             var user = new User
             {
-                Name = dto.FullName,
+                Name = dto.Name,
                 Email = dto.Email,
                 PasswordHash = dto.Password, // TODO: hash
-                Role = "Student",
+                Role = string.IsNullOrWhiteSpace(dto.Role) ? "Student" : dto.Role,
                 CreatedAt = DateTime.UtcNow
             };
             _db.Users.Add(user);
