@@ -21,10 +21,18 @@ namespace LearnManagerAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // User configuration
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
+            // User configuration – map to existing PostgreSQL table "users" (snake_case columns)
+            modelBuilder.Entity<User>(e =>
+            {
+                e.ToTable("users");
+                e.Property(u => u.Id).HasColumnName("id");
+                e.Property(u => u.Name).HasColumnName("name");
+                e.Property(u => u.Email).HasColumnName("email");
+                e.Property(u => u.PasswordHash).HasColumnName("password_hash");
+                e.Property(u => u.Role).HasColumnName("role");
+                e.Property(u => u.CreatedAt).HasColumnName("created_at");
+                e.HasIndex(u => u.Email).IsUnique();
+            });
 
             // Course configuration
             modelBuilder.Entity<Course>()

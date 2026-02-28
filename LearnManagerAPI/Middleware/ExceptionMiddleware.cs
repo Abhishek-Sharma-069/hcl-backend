@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LearnManagerAPI.Middleware
 {
@@ -23,16 +24,18 @@ namespace LearnManagerAPI.Middleware
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unhandled exception");
-                await HandleExceptionAsync(httpContext, ex);
+                var env = httpContext.RequestServices.GetService<IWebHostEnvironment>();
+                await HandleExceptionAsync(httpContext, ex, env?.IsDevelopment() ?? false);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception, bool isDevelopment)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            var response = new { message = "An unexpected error occurred." };
+            var message = isDevelopment ? exception.Message : "An unexpected error occurred.";
+            var response = new { message };
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
     }
